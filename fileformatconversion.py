@@ -9,17 +9,18 @@ Original file is located at
 
 from google.colab import files
 import pandas as pd
+import os
 
-
-# user input
-choices = input('Choose conversion format: \n 1 - CSV to Excel \n 2 - Excel to CSV \n')
+#feature to implement - error handling when selecting invalid file
 
 print('Please upload your file: ')
 uploaded_file = files.upload()
 file_name = next(iter(uploaded_file))
 
+file_format = os.path.splitext(file_name)[1]
+
 # csv to excel
-if choices == '1':
+if file_format.lower() == '.csv':
   output_file = input("Enter new file name: \n")
   data = pd.read_csv(file_name)
   data.to_excel(output_file, index = False)
@@ -27,7 +28,7 @@ if choices == '1':
   files.download(output_file)
 
 # excel to csv
-elif choices == '2':
+elif file_format.lower() in ['.xls', '.xlsx']:
   output_file = input("Enter new file name: \n")
   data = pd.read_excel(file_name)
   data.to_csv(output_file, index = False)
